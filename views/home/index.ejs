@@ -1,0 +1,122 @@
+
+<div class="container" ng-app="home" ng-controller="HomeCtrl">
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<div class="btn-group pull-right">
+			  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+				<%= __('Akcja') %> <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu pull-right" role="menu">
+				<li><a data-toggle="modal" data-target="#newDomainModal"><i class="glyphicon glyphicon-plus"></i> <%= __('dodaj') %></a></li>
+				<li><a ng-click="getDomains()"><i class="glyphicon glyphicon-refresh"></i> <%= __('odśwież') %></a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped nowrap">
+				<thead>
+					<tr>
+						<th width="1">#</th>
+						<th width="1">ID</th>
+						<th><%= __('Domena') %></th>
+						<th>MX</th>
+						<th>NS</th>
+						<th>IP</th>
+						<th>TXT</th>
+						<th width="1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="domain in domains">
+						<td>{{$index + 1}}</td>
+						<td>{{domain.id}}</td>
+						<td>{{domain.addr}}</td>
+						<td>
+							<ul class="list-unstyled">
+								<li ng-repeat="mx in domain.mx">{{mx}}</li>
+							</ul>
+						</td>
+						<td>
+							<ul class="list-unstyled">
+								<li ng-repeat="ns in domain.ns">{{ns}}</li>
+							</ul>
+						</td>
+						<td>
+							<button class="btn btn-block btn-primary btn-xs" data-toggle="modal" data-target="#ip{{$index}}"><i class="glyphicon glyphicon-info-sign"></i> IP: {{domain.ip.length}}</button>
+							<div class="modal fade" id="ip{{$index}}" tabindex="-1" role="dialog" aria-hidden="true">
+							  <div class="modal-dialog">
+								<div class="modal-content">
+								  <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="myModalLabel">IP: {{domain.addr}}</h4>
+								  </div>
+								  <div class="modal-body nowrap">
+									<ul class="list-unstyled">
+										<li ng-repeat="ip in domain.ip">{{ip}}</li>
+									</ul>
+								  </div>
+								</div>
+							  </div>
+							</div>
+						</td>
+						<td>
+							<button class="btn btn-block btn-primary btn-xs" data-toggle="modal" data-target="#txt{{$index}}"><i class="glyphicon glyphicon-info-sign"></i> TXT</button>
+							<div class="modal fade" id="txt{{$index}}" tabindex="-1" role="dialog" aria-hidden="true">
+							  <div class="modal-dialog">
+								<div class="modal-content">
+								  <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="myModalLabel">TXT: {{domain.addr}}</h4>
+								  </div>
+								  <div class="modal-body nowrap">
+									<ul class="list-unstyled">
+										<li ng-repeat="txt in domain.txt">{{txt}}</li>
+									</ul>
+								  </div>
+								</div>
+							  </div>
+							</div>
+						</td>
+						<td>
+							<div class="btn-group">
+							  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+								<%= __('opcje') %> <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu pull-right" role="menu">
+								<li><a href="#" ng-click="removeDomain(domain)"><i class="glyphicon glyphicon-trash"></i> <%= __('usuń') %></a></li>
+							  </ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal fade" id="newDomainModal" tabindex="-1" role="dialog" aria-labelledby="newDomainModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<form role="form" name="newDomainForm" ng-submit="addDomain(newDomainForm)">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><%= __('Dodaj domenę') %></h4>
+			  </div>
+			  <div class="modal-body">
+				  <div class="form-group">
+					<label for="addr"><%= __('Adres') %></label>
+					<input type="text" class="form-control" id="addr" ng-model="newDomain.addr">
+				  </div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><%= __('anuluj') %></button>
+				<button type="submit" class="btn btn-primary"><%= __('zapisz') %></button>
+			  </div>
+			</div>
+		</form>
+	  </div>
+	</div>
+	
+</div>
+
+<script type="text/javascript" src="/js/HomeCtrl.js"></script>
